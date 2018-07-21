@@ -1,0 +1,64 @@
+<Schema name="New Schema1">
+  <Dimension type="StandardDimension" foreignKey="ID_AIRLINE" highCardinality="false" name="DIM_AIRLINE" caption="Airline" description="AIRLINE">
+    <Hierarchy name="AIRLINE" hasAll="true" primaryKey="ID_AIRLINE">
+      <Table name="DIM_AIRLINE" schema="public">
+      </Table>
+      <Level name="ID_AIRLINE" column="ID_AIRLINE" type="Numeric" uniqueMembers="true" levelType="Regular" hideMemberIf="Never" description="ID_AIRLINE AUTOINCREMENT">
+      </Level>
+      <Level name="CODE_A2" column="CODE_A2" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never" description="3 LETTER USER TO IDENTIFIED THE AIRLINE">
+      </Level>
+      <Level name="CODE_A3" column="CODE_A3" type="String" uniqueMembers="true" description="3 LETTER USER TO IDENTIFIED THE AIRLINE">
+      </Level>
+      <Level name="DESCRIPTION" column="DESCRIPTION" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never" description="DESCRIPTION OF AIRLINE">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" foreignKey="CONTACT_NAME" highCardinality="false" name="DIM_CONTACT" caption="Contact" description="Message Contact">
+    <Hierarchy name="Contact" hasAll="true" primaryKey="CONTACT_NAME" description="Message Issue">
+      <Table name="DIM_CONTACT" schema="public">
+      </Table>
+      <Level name="CONTACT_NAME" column="CONTACT_NAME" type="String" uniqueMembers="true" levelType="Regular" description="Message Contact Name">
+      </Level>
+      <Level name="AGENCY" column="AGENCY" type="String" uniqueMembers="false" levelType="Regular" description="AGENCY ">
+      </Level>
+      <Level name="CONTACT_EMAIL" column="CONTACT_EMAIL" type="String" uniqueMembers="false" levelType="Regular">
+      </Level>
+      <Level name="CONTACT_FAX" column="CONTACT_FAX" type="String" uniqueMembers="false" levelType="Regular">
+      </Level>
+      <Level name="CONTACT_TELEFHONE" column="CONTACT_TELEFHONE" type="String" uniqueMembers="false" levelType="Regular">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" foreignKey="AIRPORT_ORIGEN" highCardinality="false" name="AIRPORT_ORIGEN" caption="AIRPORT_ORIGEN" description="AIRPORT_ORIGEN">
+    <Hierarchy name="Origen Airport" hasAll="true" primaryKey="ID_AIRPORT" description="Origen Airport">
+      <Table name="DIM_PLACE" schema="public" alias="AIRPORT_ORIGEN">
+      </Table>
+      <Level name="ID_AIRPORT" column="ID_AIRPORT" type="Numeric" uniqueMembers="true" levelType="Regular" description="Numeric autoincrement ">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" foreignKey="AIRPORT_DESTINATION" highCardinality="false" name="AIRPORT_DESTINATION" caption="AIRPORT_DESTINATION" description="AIRPORT_DESTINATION">
+    <Hierarchy name="New Hierarchy 0" hasAll="true" primaryKey="ID_AIRPORT">
+      <Table name="DIM_PLACE" schema="public" alias="AIRPORT_DESTINATION">
+      </Table>
+      <Level name="ID_AIRPORT" column="ID_AIRPORT" type="Numeric" uniqueMembers="true" levelType="Regular">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" foreignKey="ID_DATE" highCardinality="false" name="DIM_TIME" caption="TIME" description="TIME ">
+    <Hierarchy name="Time" hasAll="true" primaryKey="ID_DATE">
+      <Table name="DIM_TIME" schema="public">
+      </Table>
+      <Level name="ID_DATE" column="ID_DATE" type="Numeric" uniqueMembers="true" levelType="Regular" description="Autoincrement">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Cube name="Travel" cache="true" enabled="true">
+    <Table name="HECH_TRAVEL" schema="public" alias="Travel">
+    </Table>
+    <DimensionUsage source="DIM_CONTACT" name="Contact" foreignKey="CONTACT_NAME">
+    </DimensionUsage>
+    <Measure name="quantity of travel" column="ID_TRAVEL" datatype="Numeric" aggregator="count" visible="true">
+    </Measure>
+  </Cube>
+</Schema>

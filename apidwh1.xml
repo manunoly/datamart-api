@@ -1,0 +1,34 @@
+<Schema name="New Schema1">
+  <Dimension type="StandardDimension" foreignKey="ID_AIRLINE" name="DIM_AIRLINE" caption="Airline" description="AIRLINE">
+    <Hierarchy name="New Hierarchy 0" hasAll="true">
+      <Table name="DIM_AIRLINE" schema="public" alias="">
+      </Table>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" foreignKey="CONTACT_NAME" name="DIM_CONTACT" caption="Contact" description="Message Contact">
+    <Hierarchy name="New Hierarchy 0" hasAll="true">
+      <Table name="DIM_CONTACT" schema="public" alias="">
+      </Table>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" foreignKey="AIRPORT_ORIGEN" name="AIRPORT_ORIGEN" caption="AIRPORT_ORIGEN" description="AIRPORT_ORIGEN">
+    <Hierarchy name="New Hierarchy 0" hasAll="true">
+      <Table name="DIM_PLACE" schema="public" alias="AIRPORT_ORIGEN">
+      </Table>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" foreignKey="AIRPORT_DESTINATION" name="AIRPORT_DESTINATION" caption="AIRPORT_DESTINATION" description="AIRPORT_DESTINATION">
+    <Hierarchy name="New Hierarchy 0" hasAll="true">
+      <Table name="DIM_PLACE" schema="public" alias="AIRPORT_DESTINATION">
+      </Table>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" foreignKey="ID_DATE" name="DIM_TIME" caption="TIME" description="TIME ">
+    <Hierarchy name="New Hierarchy 0" hasAll="true">
+      <Table name="DIM_TIME" schema="public">
+      </Table>
+    </Hierarchy>
+  </Dimension>
+  <Cube name="Travel" cache="true" enabled="true">
+  </Cube>
+</Schema>

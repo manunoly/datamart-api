@@ -1,0 +1,120 @@
+<Schema name="apidwh_schema" description="apidwh_schema">
+  <Dimension type="StandardDimension" visible="true" highCardinality="false" name="Airline" caption="Airline" description="AIRLINE">
+    <Hierarchy name="Airline" visible="true" hasAll="true" allMemberName="All Airlines" primaryKey="id_airline">
+      <Table name="dim_airline" schema="public">
+      </Table>
+      <Level name="ID_AIRLINE" visible="true" column="id_airline" type="Numeric" uniqueMembers="true" levelType="Regular" hideMemberIf="Never" description="ID_AIRLINE AUTOINCREMENT">
+      </Level>
+      <Level name="CODE_A2" visible="true" column="code_a2" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never" description="3 LETTER USER TO IDENTIFIED THE AIRLINE">
+      </Level>
+      <Level name="CODE_A3" visible="true" column="code_a3" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never" description="3 LETTER USER TO IDENTIFIED THE AIRLINE">
+      </Level>
+      <Level name="DESCRIPTION" visible="true" column="description" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never" description="DESCRIPTION OF AIRLINE">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" visible="true" highCardinality="false" name="Contact" caption="Contact" description="Message Contact">
+    <Hierarchy name="Contact" visible="true" hasAll="true" allMemberName="All Contacts" primaryKey="contact_name" description="Message Issue">
+      <Table name="dim_contact" schema="public">
+      </Table>
+      <Level name="CONTACT_NAME" visible="true" column="contact_name" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never" description="Message Contact Name">
+      </Level>
+      <Level name="AGENCY" visible="true" column="agency" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never" description="AGENCY ">
+      </Level>
+      <Level name="CONTACT_EMAIL" visible="true" column="contact_email" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="CONTACT_FAX" visible="true" column="contact_fax" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="CONTACT_TELEFHONE" visible="true" column="contact_telephone" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" visible="true" highCardinality="false" name="Airport_Origen" caption="Airport_Origen" description="AIRPORT_ORIGEN">
+    <Hierarchy name="Airport_Origen" visible="true" hasAll="true" allMemberName="All Airport_Origens" primaryKey="id_airport" description="Airport_Origen">
+      <Table name="dim_place" schema="public" alias="AIRPORT_ORIGEN">
+      </Table>
+      <Level name="ID_AIRPORT" visible="true" column="id_airport" type="Numeric" uniqueMembers="true" levelType="Regular" hideMemberIf="Never" description="Numeric autoincrement ">
+      </Level>
+      <Level name="AIRPORT_CODE_A2" visible="true" column="airport_code_a2" parentColumn="country_code3" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="AIRPORT_CODE_A3" visible="true" column="airport_code_a3" parentColumn="country_code3" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="AIRPORT_DESCRIPTION" visible="true" column="airport_description" parentColumn="country_description" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="COUNTRY_CODE2" visible="true" column="country_code2" parentColumn="region" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="COUNTRY_CODE3" visible="true" column="country_code3" parentColumn="region" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="COUNTRY_DESCRIPTION" visible="true" column="country_description" parentColumn="region" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="REGION" visible="true" column="region" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" visible="true" highCardinality="false" name="Airport_Destination" caption="Airport_Destination" description="AIRPORT_DESTINATION">
+    <Hierarchy name="New Hierarchy 0" visible="true" hasAll="true" allMemberName="All Airport_Destinations" primaryKey="id_airport">
+      <Table name="dim_place" schema="public" alias="AIRPORT_DESTINATION">
+      </Table>
+      <Level name="ID_AIRPORT" visible="true" column="id_airport" type="Numeric" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="AIRPORT_CODE_A2" visible="true" column="airport_code_a2" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="AIRPORT_CODE_A3" visible="true" column="airport_code_a3" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="AIRPORT_DESCRIPTION" visible="true" column="airport_description" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="TimeDimension" visible="true" highCardinality="false" name="Time" caption="Time" description="TIME ">
+    <Hierarchy name="Time" visible="true" hasAll="true" allMemberName="All Times" primaryKey="id_date">
+      <Table name="dim_time" schema="public">
+      </Table>
+      <Level name="ID_DATE" visible="true" column="id_date" type="Integer" uniqueMembers="true" levelType="TimeUndefined" hideMemberIf="Never" description="Autoincrement">
+      </Level>
+      <Level name="YEAR" visible="true" column="year" type="Integer" uniqueMembers="false" levelType="TimeYears" hideMemberIf="Never">
+      </Level>
+      <Level name="SEMESTER" visible="true" column="semester" type="Integer" uniqueMembers="false" levelType="TimeHalfYear" hideMemberIf="Never">
+      </Level>
+      <Level name="TRIMESTER" visible="true" column="trimester" type="Integer" uniqueMembers="false" levelType="TimeQuarters" hideMemberIf="Never">
+      </Level>
+      <Level name="MONTH" visible="true" column="month" type="String" uniqueMembers="false" levelType="TimeMonths" hideMemberIf="Never">
+      </Level>
+      <Level name="WEEK_DAY" visible="true" column="week_day" type="String" uniqueMembers="false" levelType="TimeDays" hideMemberIf="Never">
+      </Level>
+      <Level name="DAY" visible="true" column="day" type="Integer" uniqueMembers="false" levelType="TimeDays" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Cube name="Travel" visible="true" cache="true" enabled="true">
+    <Table name="hech_travel" schema="public" alias="Travel">
+    </Table>
+    <DimensionUsage source="Contact" name="Contact" visible="true" foreignKey="CONTACT_NAME" highCardinality="false">
+    </DimensionUsage>
+    <DimensionUsage source="Airline" name="Airline" visible="true" foreignKey="ID_AIRLINE" highCardinality="false">
+    </DimensionUsage>
+    <DimensionUsage source="AIRPORT_ORIGEN" name="Airport_Origen" visible="true" foreignKey="AIRPORT_ORIGEN" highCardinality="false">
+    </DimensionUsage>
+    <DimensionUsage source="AIRPORT_DESTINATION" name="Airport_Destination" visible="true" foreignKey="AIRPORT_DESTINATION" highCardinality="false">
+    </DimensionUsage>
+    <DimensionUsage source="Time" name="Time" visible="true" foreignKey="ID_DATE" highCardinality="false">
+    </DimensionUsage>
+    <Measure name="Quantity of Travel" column="ID_TRAVEL" datatype="Numeric" aggregator="count" visible="true">
+    </Measure>
+    <Measure name="Quantity of Crew Declare" column="QUANTITY_CREW_DECLARED" datatype="Numeric" aggregator="sum" visible="true">
+    </Measure>
+    <Measure name="Quantity of Crew Receive" column="QUANTITY_CREW_RECEIVE" datatype="Numeric" aggregator="sum" visible="true">
+    </Measure>
+    <Measure name="Quantity Message Acepted" column="QUANTITY_MESSAGE_ACEPTED" datatype="Numeric" aggregator="sum" visible="true">
+    </Measure>
+    <Measure name="Quantity Message Receive" column="QUANTITY_MESSAGE_RECEIVE" datatype="Numeric" aggregator="sum" visible="true">
+    </Measure>
+    <Measure name="Quantity Message Rejected" column="QUANTITY_MESSAGE_REJECT" datatype="Numeric" aggregator="sum" visible="true">
+    </Measure>
+    <Measure name="Quantity Message Error " column="QUANTITY_MESSAGE_ERROR" datatype="Numeric" aggregator="sum" visible="true">
+    </Measure>
+    <Measure name="Quantity Passenger Declared" column="QUANTITY_PASSENGER_DECLARED" datatype="Numeric" aggregator="sum" visible="true">
+    </Measure>
+    <Measure name="Quantity Passenger Receive" column="QUANTITY_PASSENGER_RECEIVE" aggregator="sum" visible="true">
+    </Measure>
+  </Cube>
+</Schema>

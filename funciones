@@ -1,0 +1,171 @@
+-- Function: "ActualizarAD"()
+
+-- DROP FUNCTION "ActualizarAD"();
+
+CREATE OR REPLACE FUNCTION "ActualizarAD"()
+  RETURNS boolean AS
+$BODY$
+declare
+  adcursor cursor for select * from hecho_vuelo where id_aeropuerto_destino is null;
+  varad hecho_vuelo;
+  advar hecho_vuelo.id_aeropuerto_destino%TYPE;
+begin 
+  --buscar los aeropuertos destinos nulos
+  open adcursor;
+  loop
+  fetch adcursor into varad;
+  exit when not found;
+     --buscar el aeropuerto destino mas regular en ese mismo vuelo
+     select id_aeropuerto_destino into advar from hecho_vuelo 
+	where id_aeropuerto_destino is not null and numero_vuelo=varad.numero_vuelo
+	group by id_aeropuerto_destino order by count(*) desc limit 1; 
+     --si se encontro actualizar el aeropuerto, de lo contrario borrarlo
+     if found then
+	update hecho_vuelo set id_aeropuerto_destino = advar where id_vuelo =varad.id_vuelo;
+     else 
+	delete from hecho_vuelo where id_vuelo =varad.id_vuelo;
+     end if; 
+  end loop;
+  return true;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION "ActualizarAD"() OWNER TO postgres;
+
+
+
+
+
+
+-- Function: "ActualizarAO"()
+
+-- DROP FUNCTION "ActualizarAO"();
+
+CREATE OR REPLACE FUNCTION "ActualizarAO"()
+  RETURNS boolean AS
+$BODY$
+declare
+  adcursor cursor for select * from hecho_vuelo where id_aeropuerto_origen is null;
+  varad hecho_vuelo;
+  advar hecho_vuelo.id_aeropuerto_origen%TYPE;
+begin 
+  --buscar los aeropuertos origen nulos
+  open adcursor;
+  loop
+  fetch adcursor into varad;
+  exit when not found;
+     --buscar el aeropuerto origen mas regular en ese mismo vuelo
+     select id_aeropuerto_origen into advar from hecho_vuelo 
+	where id_aeropuerto_origen is not null and numero_vuelo=varad.numero_vuelo
+	group by id_aeropuerto_origen order by count(*) desc limit 1; 
+     --si se encontro actualizar el aeropuerto, de lo contrario borrarlo
+     if found then
+	update hecho_vuelo set id_aeropuerto_origen = advar where id_vuelo =varad.id_vuelo;
+     else 
+	delete from hecho_vuelo where id_vuelo =varad.id_vuelo;
+     end if; 
+  end loop;
+  return true;
+  end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION "ActualizarAO"() OWNER TO postgres;
+
+
+
+-- Function: "ActualizarContacto"()
+
+-- DROP FUNCTION "ActualizarContacto"();
+
+CREATE OR REPLACE FUNCTION "ActualizarContacto"()
+  RETURNS boolean AS
+$BODY$
+declare
+  adcursor cursor for select * from hecho_vuelo where nombre_contacto is null;
+  varad hecho_vuelo;
+  tmp hecho_vuelo.nombre_contacto%TYPE;
+  advar hecho_vuelo.nombre_contacto%TYPE;
+begin 
+  --verificar que no exista el contacto 'Sin Contacto' para insertarlo
+  select nombre_contacto into tmp from contacto where nombre_contacto='Sin Contacto';
+  if not found then
+     insert into contacto values('Sin Contacto',null,null,null,null);
+  end if;
+  --buscar los contactos nulos
+  open adcursor;
+  loop
+  fetch adcursor into varad;
+  exit when not found;
+     --buscar el contacto mas regular en ese mismo vuelo
+     select nombre_contacto into advar from hecho_vuelo 
+	where nombre_contacto is not null and numero_vuelo=varad.numero_vuelo
+	group by nombre_contacto order by count(*) desc limit 1; 
+     --si se encontro actualizar el contacto, de lo contrario ponerlo a 'Sin Contacto'
+     if found then
+	update hecho_vuelo set nombre_contacto = advar where id_vuelo =varad.id_vuelo;
+     else 
+	update hecho_vuelo set nombre_contacto = 'Sin Contacto' where id_vuelo =varad.id_vuelo;
+     end if; 
+  end loop;
+  return true;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION "ActualizarContacto"() OWNER TO postgres;
+
+
+
+
+-- Function: "ActualizarVuelo"()
+
+-- DROP FUNCTION "ActualizarVuelo"();
+
+CREATE OR REPLACE FUNCTION "ActualizarVuelo"()
+  RETURNS boolean AS
+$BODY$
+declare
+  airlinecursor cursor for select * from hecho_vuelo where id_aerolineas is null;
+  varairline hecho_vuelo;
+  tmp aerolineas.id_aerolineas%TYPE;
+  id_aerolineasvar hecho_vuelo.id_aerolineas%TYPE;
+begin
+  --actualizar las cantidades nulas a cero
+  update hecho_vuelo set cant_pasageros_declarados = 0 where cant_pasageros_declarados is null;
+  update hecho_vuelo set cant_pasageros_recibidos = 0 where cant_pasageros_recibidos is null;
+  update hecho_vuelo set cant_mensages_recibidos = 0 where cant_mensages_recibidos is null;
+  update hecho_vuelo set cant_mensages_aceptados = 0 where cant_mensages_aceptados is null;
+  update hecho_vuelo set cant_mensages_rechazados = 0 where cant_mensages_rechazados is null;
+  update hecho_vuelo set cant_error_mensages = 0 where cant_error_mensages is null;
+  update hecho_vuelo set cant_tripulantes_declarados = 0 where cant_tripulantes_declarados is null;
+  update hecho_vuelo set cant_tripulantes_recibidos = 0 where cant_tripulantes_recibidos is null;
+  --verificar que no exista la aerolinea 9999 para insertarla
+  select id_aerolineas into tmp from aerolineas where id_aerolineas='9999';  
+  if not found then
+     insert into aerolineas values('9999','99','999','Sin Aerolinea');
+  end if;
+  --buscar las aerolineas nulas
+  open airlinecursor;
+  loop
+  fetch airlinecursor into varairline;
+  exit when not found;
+     --buscar la aerolinea mas regular en ese mismo vuelo
+     select id_aerolineas into id_aerolineasvar from hecho_vuelo 
+	where id_aerolineas is not null and numero_vuelo=varairline.numero_vuelo
+	group by id_aerolineas order by count(*) desc limit 1; 
+     --si se encontro actualizar la aerolinea, de lo contrario ponerlo a 9999
+     if found then
+	update hecho_vuelo set id_aerolineas = id_aerolineasvar where id_vuelo =varairline.id_vuelo;
+     else 
+	update hecho_vuelo set id_aerolineas = 9999 where id_vuelo =varairline.id_vuelo;
+     end if; 
+  end loop;
+  return true;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION "ActualizarVuelo"() OWNER TO postgres;
+

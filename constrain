@@ -1,0 +1,45 @@
+﻿-- Index: fki_aerolinea
+
+-- DROP INDEX fki_aerolinea;
+
+CREATE INDEX fki_aerolinea
+  ON hecho_vuelo
+  USING btree
+  (id_aerolineas);
+
+-- Index: fki_contacto
+
+-- DROP INDEX fki_contacto;
+
+CREATE INDEX fki_contacto
+  ON hecho_vuelo
+  USING btree
+  (nombre_contacto);
+
+-- Index: fki_destino
+
+-- DROP INDEX fki_destino;
+
+CREATE INDEX fki_destino
+  ON hecho_vuelo
+  USING btree
+  (id_aeropuerto_destino);
+
+-- Index: fki_fecha
+
+-- DROP INDEX fki_fecha;
+
+CREATE INDEX fki_fecha
+  ON hecho_vuelo
+  USING btree
+  (fecha);
+
+-- Index: fki_origen
+
+-- DROP INDEX fki_origen;
+
+CREATE INDEX fki_origen
+  ON hecho_vuelo
+  USING btree
+  (id_aeropuerto_origen);
+

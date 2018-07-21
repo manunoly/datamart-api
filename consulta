@@ -1,0 +1,37 @@
+﻿SELECT 
+  dim_contact.contact_name, 
+  dim_contact.contact_email, 
+  dim_contact.contact_fax, 
+  dim_contact.contact_telephone, 
+  dim_contact.agency, 
+  dim_place.country_code3, 
+  dim_place.country_description, 
+  dim_place.airport_code_a3, 
+  dim_place.airport_description, 
+  dim_airline.code_a3, 
+  dim_airline.description, 
+  dim_time."year", 
+  dim_time."month", 
+  dim_time."day", 
+  dim_time.week_day, 
+  hech_travel.fly_number, 
+  hech_travel.quantity_passenger_declared, 
+  hech_travel.quantity_passenger_receive, 
+  hech_travel.quantity_message_receive, 
+  hech_travel.quantity_message_acepted, 
+  hech_travel.quantity_message_reject, 
+  hech_travel.quantity_message_error, 
+  hech_travel.quantity_crew_declared, 
+  hech_travel.quantity_crew_receive
+FROM 
+  public.dim_airline, 
+  public.dim_contact, 
+  public.dim_place, 
+  public.dim_time, 
+  public.hech_travel
+WHERE 
+  dim_time.id_date = hech_travel.id_date AND
+  hech_travel.id_airline = dim_airline.id_airline AND
+  hech_travel.contact_name = dim_contact.contact_name AND
+  hech_travel.airport_origen = dim_place.id_airport AND
+  hech_travel.airport_destination = dim_place.id_airport;

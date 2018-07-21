@@ -1,0 +1,21 @@
+﻿ALTER TABLE hecho_vuelo
+  ADD CONSTRAINT aerolineas FOREIGN KEY (id_aerolineas)
+      REFERENCES aerolineas (id_aerolineas) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION;
+
+ALTER TABLE hecho_vuelo
+  ADD CONSTRAINT contacto FOREIGN KEY (nombre_contacto)
+      REFERENCES contacto (nombre_contacto) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE hecho_vuelo
+  ADD CONSTRAINT destino FOREIGN KEY (id_aeropuerto_destino)
+      REFERENCES lugar_destino (id_aeropuerto_destino) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE hecho_vuelo
+  ADD CONSTRAINT fecha FOREIGN KEY (fecha)
+      REFERENCES tiempo (fecha) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE hecho_vuelo
+  ADD CONSTRAINT origen FOREIGN KEY (id_aeropuerto_origen)
+      REFERENCES lugar_origen (id_aeropuerto_origen) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION;
